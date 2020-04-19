@@ -29,11 +29,11 @@ class App extends Component {
     const { data, country } = this.state;
     return Object.keys(data).length ? (
       <div className={styles.container}>
-        <Cards data={data}/>
+        <Cards data={this.state.data}/>
         <CountryPicker countryPicker={this.handleCountryChange}/>
-        <Chart data={data} countryName={country}/>
+        <Chart data={this.state.data} countryName={this.state.country}/>
       </div>
-    ) : (<Loader type="Puff" color="#00BFFF" height={100} width={100}/>)
+    ) : (<Loader type="Puff" color="#00BFFF" height={100} width={100} className={styles.loader}/>)
   }
 }
 

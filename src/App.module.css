@@ -9,6 +9,10 @@ body {
   flex-direction: column;
 }
 
+.loader {
+  margin: auto;
+}
+
 @media screen and (max-width: 770px) {
   .container {
     margin: 0 10%;
