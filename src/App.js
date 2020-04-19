@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import {Cards, Chart, CountryPicker} from './components';
+import {fetchData} from './api';
+import Loader from 'react-loader-spinner';
+import styles from './App.module.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    data: {},
+    country: ''
+  };
+
+  async componentDidMount() {
+    const fetchedData = await fetchData();
+    this.setState({
+      data: fetchedData
+    })
+  }
+
+  handleCountryChange = async (country) => {
+    const fetchedData = await fetchData(country);
+    this.setState({
+      data: fetchedData,
+      country
+    })
+  }
+
+  render() {
+    const { data, country } = this.state;
+    return Object.keys(data).length ? (
+      <div className={styles.container}>
+        <Cards data={data}/>
+        <CountryPicker countryPicker={this.handleCountryChange}/>
+        <Chart data={data} countryName={country}/>
+      </div>
+    ) : (<Loader type="Puff" color="#00BFFF" height={100} width={100}/>)
+  }
 }
 
 export default App;
